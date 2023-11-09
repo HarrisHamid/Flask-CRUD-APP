@@ -4,25 +4,41 @@
 
 {% block title %} Home {% endblock %}
 
-
-
 {% block body %}
 
 <div class="container">
     <div class ="row">
         <div class="md-12">
 
-            <div class = "jumbotron p-3">
+            <div class ="jumbotron p-3">
 
                 <h2>Manage <b>Users</b> <button type="button" class="btn btn-info float-right"
                     data-toggle="modal" data-target="#mymodal">Add New Users</button> </h2>
 
+                {%with messages = get_flashed_messages() %}
+
+                {% if messages %}
+
+                {% for message in messages %}
+
+                <div class ="alert alert-success alert-dismissible" role ="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                        <span aria-hidden="true">x</span>
+                    </button>
+
+                {{message}}
+
+                </div>
+
+                {% endfor %}
+
+                {% endif %}
+                {% endwith %}
 
 
                 <table class="table table-hover table-dark">
 
                     <tr>
-
                         <th>ID</th>
                         <th>Name</th>
                         <th>Email</th>
@@ -30,16 +46,18 @@
 
                     </tr>
 
+                    {% for row in Users %}
                     <tr>
-                        <!-- to be repalced with data retrieved from SQL database -->
-                        <td>200103</td>
-                        <td>Harris</td>
-                        <td>hhamid@stevens.edu</td>
-                        <td>Admin</td>
+                        <td>{{row.id}}</td>
+                        <td>{{row.name}}</td>
+                        <td>{{row.email}}</td>
+                        <td>{row.access}</td>
 
                         <td>
-                            <a href="" class="btn btn-light" data-toggle="modal" data-target="#modaledit">Edit</a>
+                            <a href="/update/{{row.id}}" class="btn btn-light" data-toggle="modal" data-target="#modaledit{{row.id}}">Edit</a>
                             <a href=""class="btn btn-danger btn"-xs onclick="return confirm('Confirm Deletion?')">Delete</a>
+
+                            <!-- imports, not sure if imported properly -->
                             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
                             <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
                             <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
@@ -50,7 +68,7 @@
                     </tr>
 
                     <!-- Edit Modal -->
-            <div id="modaledit" class="modal fade" role="dialog">
+            <div id="modaledit{{row.id}}" class="modal fade" role="dialog">
                 <div class="modal-dialog" >
                     <div class="modal-content">
                         <div class="modal-header">
@@ -61,26 +79,34 @@
 
                         <div class="modal-body">
 
-                            <form action="" method="POST">
+                            <form action="{{url_for('update')}}" method="POST">
 
                                 <div class ="form-group">
                                     <label>Name:</label>
-                                    <input type="text" class="form-control" name="name" required="1">
+                                    <input type="text" class="form-control" name="name" required="1" value ="{{row.name}}">
                                 </div>
 
                                 <div class ="form-group">
                                     <label>Email:</label>
-                                    <input type="text" name="email" requirement="1">
+                                    <input type="text" class="form-control" name="email" requirement="1" value="{{row.email}}">
+                                </div>
+
+                                <div class ="form-group">
+                                    <label>Access:</label>
+                                    <input type="text" class="form-control" name="access" required="1" value="{{row.access}}">
                                 </div>
 
                             </form>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-warning">Update</button>
+                            <button type="submit" class="btn btn-warning">Update</button>
                         </div>
                     </div>
                 </div>
+
+
+                {% endfor %}
 
                 </table>
 
@@ -98,23 +124,29 @@
 
                         <div class="modal-body">
 
-                            <form action="" method="POST">
+                            <form action="{{url_for('insert')}}" method="POST">
 
                                 <div class ="form-group">
                                     <label>Name:</label>
-                                    <input type="text" class="form-control" name="name" required="1">
+                                    <input type="text" class="form-control" name="name" required="1" value="{{row.name}}">
                                 </div>
 
                                 <div class ="form-group">
                                     <label>Email:</label>
-                                    <input type="text" name="email" requirement="1">
+                                    <input type="text" class="form-control" name="email" requirement="1" value="{{row.email}}">
+                                </div>
+
+                                <div class ="form-group">
+                                    <label>Access:</label>
+                                    <input type="text" class="form-control" name="access" required="1" value="{{row.access}}">
                                 </div>
 
                             </form>
                         </div>
+
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Add User</button>
+                            <button type="submit" class="btn btn-primary">Add User</button>
                         </div>
                     </div>
                 </div>
