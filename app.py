@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///C:\\Users\\harri\\Documents\\GitHub\\Flask-CRUD-APP\\instance\\UserData.db'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///C:\\Users\\harri\\Documents\\GitHub\\Flask-CRUD-APP\\instance\\UserData.db'
 
 app.secret_key = 'secret key'  # Change this to a more secure secret key
 db = SQLAlchemy(app)
