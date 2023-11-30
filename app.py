@@ -2,11 +2,12 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///UserData.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///C:\\Users\\harri\\Documents\\GitHub\\Flask-CRUD-APP\\instance\\UserData.db'
+
 app.secret_key = 'secret key'  # Change this to a more secure secret key
 db = SQLAlchemy(app)
 
-
+# Creating Tables
 class UserData(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
@@ -61,5 +62,5 @@ def update():
 
 
 if __name__ == "__main__":
-    #db.create_all()
+    db.create_all()
     app.run(debug=True)
